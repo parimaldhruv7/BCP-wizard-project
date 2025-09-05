@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, Plus, Trash2, AlertCircle } from 'lucide-react';
 import StepIndicator from './StepIndicator';
+import { API_BASE_URL } from './api';
 
 interface BCPWizardProps {
   onComplete: () => void;
@@ -131,7 +132,7 @@ const BCPWizard: React.FC<BCPWizardProps> = ({ onComplete, onBack }) => {
     setLoading(true);
     try {
       if (stepNumber === 1) {
-        const response = await fetch('http://localhost:3001/api/bcp', {
+        const response = await fetch(`${API_BASE_URL}/api/bcp`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -145,13 +146,13 @@ const BCPWizard: React.FC<BCPWizardProps> = ({ onComplete, onBack }) => {
         const data = await response.json();
         setBcpId(data.id);
 
-        await fetch(`http://localhost:3001/api/bcp/${data.id}/processes`, {
+        await fetch(`${API_BASE_URL}/api/bcp/${data.id}/processes`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ processes })
         });
       } else if (stepNumber === 2) {
-        await fetch(`http://localhost:3001/api/bcp/${bcpId}/bia`, {
+        await fetch(`${API_BASE_URL}/api/bcp/${bcpId}/bia`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -162,13 +163,13 @@ const BCPWizard: React.FC<BCPWizardProps> = ({ onComplete, onBack }) => {
           })
         });
       } else if (stepNumber === 3) {
-        await fetch(`http://localhost:3001/api/bcp/${bcpId}/communications`, {
+        await fetch(`${API_BASE_URL}/api/bcp/${bcpId}/communications`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ communications })
         });
       } else if (stepNumber === 4) {
-        await fetch(`http://localhost:3001/api/bcp/${bcpId}/risks`, {
+        await fetch(`${API_BASE_URL}/api/bcp/${bcpId}/risks`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ description: riskDescription })

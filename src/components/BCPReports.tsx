@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, FileText, Calendar, User, Building, AlertTriangle, Users } from 'lucide-react';
+import { API_BASE_URL } from './api';
 
 interface BCPReportsProps {
   onBack: () => void;
@@ -35,7 +36,7 @@ const BCPReports: React.FC<BCPReportsProps> = ({ onBack }) => {
 
   const fetchBCPs = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/bcps');
+      const response = await fetch(`${API_BASE_URL}/api/bcps`);
       const data = await response.json();
       setBcps(data);
     } catch (error) {
@@ -47,7 +48,7 @@ const BCPReports: React.FC<BCPReportsProps> = ({ onBack }) => {
   const fetchReport = async (bcpId: string) => {
     setReportLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/api/bcp/${bcpId}/report`);
+     const response = await fetch(`${API_BASE_URL}/api/bcp/${bcpId}/report`);
       const data = await response.json();
       setSelectedReport(data);
     } catch (error) {
